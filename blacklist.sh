@@ -3,8 +3,11 @@
 #
 
 TRANSMISSION_DIR="/var/lib/transmission-daemon/.config/transmission-daemon/blocklists"
-LIST="my_big_blacklist"
+LIST="$TRANSMISSION_DIR/my_big_blacklist"
 _URL="https://www.iblocklist.com/lists.php"
+
+# Clean old list
+[ -f $LIST ] && rm $LIST
 
 # Make my_big_blacklist
 for url in $(curl -s $_URL | sed -e '/value=/! { d }' -e "/value='http/! { d }" -e "s/.*value='//g" -e "s/'.*//g"); do
